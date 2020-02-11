@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/bottom_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.project.employeeso7.ui.view.home.view.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/employeeFormFragment"
+        android:name="com.project.employeeso7.ui.view.employeeForm.view.EmployeeFragment"
+        android:label="EmployeeFragment" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.project.employeeso7.ui.view.statistics.view.StatisticsFragment"
+        android:label="StatisticsFragment" />
+</navigation>
