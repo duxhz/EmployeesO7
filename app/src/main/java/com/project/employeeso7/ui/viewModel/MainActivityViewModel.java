@@ -22,7 +22,10 @@ public class MainActivityViewModel extends AndroidViewModel {
     MutableLiveData<List<Employee>> employeeList = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable;
 
-    public MainActivityViewModel(@NonNull Application application) {
+    public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository) {
         super(application);
+        mAppContext=application.getApplicationContext();
+        mGuestRepository=guestRepository;
+        this.compositeDisposable= new CompositeDisposable();
     }
 }
