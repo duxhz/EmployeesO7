@@ -10,6 +10,7 @@
     <string name="gender">Gender</string>
     <string name="monthly_salary">Monthly Salary(€)</string>
     <string name="add_employee">Add employee</string>
+    <string name="empty_field">Field must not be empty</string>
 
     <string-array name="gender">
         <item>Male</item>

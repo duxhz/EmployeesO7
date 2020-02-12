@@ -121,6 +121,7 @@
                     app:layout_constraintTop_toBottomOf="@id/et_birthday" />
 
                 <Button
+                    android:id="@+id/btn_add"
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:background="@drawable/rounded_btn"

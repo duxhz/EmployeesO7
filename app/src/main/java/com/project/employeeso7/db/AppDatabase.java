@@ -25,5 +25,19 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return sInstance;
     }
+
+   /* static final Migration MIGRATION_1_2 = new Migration(1, 2) { // From version 1 to version 2
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Remove the table
+            database.execSQL("DROP TABLE employees"); // Use the right table name
+
+            // OR: We could update it, by using an ALTER query
+
+            // OR: If needed, we can create the table again with the required settings
+            // database.execSQL("CREATE TABLE IF NOT EXISTS my_table (id INTEGER, PRIMARY KEY(id), ...)")
+        }
+    };*/
+
     public abstract EmployeesDAO getEmployeeDAO();
 }

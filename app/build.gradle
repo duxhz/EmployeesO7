@@ -33,6 +33,7 @@ ext {
     nav_version = "2.3.0-alpha01"
     stetho_ver = "1.5.1"
     mat_version = "1.2.0-alpha04"
+    ld_version= "2.2.0"
 }
 
 dependencies {
@@ -56,6 +57,7 @@ dependencies {
 
     //Stetho
     implementation "com.facebook.stetho:stetho:$stetho_ver"
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
     //Room Persistance Library
     implementation "androidx.room:room-runtime:$room_version"
@@ -66,6 +68,11 @@ dependencies {
     //RxJava2
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.16'
+
+    //LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$ld_version"
+    implementation "androidx.lifecycle:lifecycle-runtime:$ld_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$ld_version"
 
     //RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.1.0"
