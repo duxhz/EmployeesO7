@@ -27,6 +27,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+repositories {
+    maven { url "https://jitpack.io" }
+}
 
 ext {
     room_version = '2.2.3'
@@ -78,5 +81,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     //CardView
     implementation "androidx.cardview:cardview:1.0.0"
+
+    //Charts library
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }

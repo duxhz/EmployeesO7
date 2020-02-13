@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -40,9 +41,34 @@ public class EmployeeFragment extends Fragment {
 
         insertEmployee();
         openCalendar();
+        getMedAge();
+        fillMedAge();
 
         return rootView;
     }
+
+    private void fillAvgAge(){
+        mViewModel.getAverageAge();
+    }
+
+    private void getAvgAge(){
+        mViewModel.updateAverageAge().observe(getViewLifecycleOwner(), integer -> {
+            Toast.makeText(getContext(), String.valueOf(integer), Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+    private void fillMedAge(){
+        mViewModel.getMedianAge();
+    }
+
+    private void getMedAge(){
+        mViewModel.updateMedianAge().observe(getViewLifecycleOwner(), string -> {
+            Toast.makeText(getContext(), string, Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
 
     private void insertEmployee(){
         binding.btnAdd.setOnClickListener(v -> {

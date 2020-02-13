@@ -2,10 +2,12 @@ package com.project.employeeso7.repository;
 
 import com.project.employeeso7.db.AppDatabase;
 import com.project.employeeso7.model.Employee;
+import com.project.employeeso7.model.Ratio;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class EO7DataSource {
 
@@ -37,4 +39,17 @@ public class EO7DataSource {
     public Observable<List<Employee>> getEmployeesDataSource() {
         return mAppDatabase.getEmployeeDAO().getEmployees();
     }
+
+    public Single<Integer> getAverageAge(){
+        return mAppDatabase.getEmployeeDAO().getAverageAge();
+    }
+
+    public Single<String> getMedianAge(){
+        return mAppDatabase.getEmployeeDAO().getMedianAge();
+    }
+
+    public Single<Ratio> getRatio(){
+        return mAppDatabase.getEmployeeDAO().getRatio();
+    }
+
 }

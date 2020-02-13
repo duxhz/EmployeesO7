@@ -3,6 +3,7 @@ package com.project.employeeso7.ui.view.home.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,14 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.employeeso7.R;
 import com.project.employeeso7.model.Employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapter.EmployeeViewHolder> {
 
     List<Employee> employeesList;
+    List<Employee> employeeListFull;
+    ClickListener mClickListener;
 
-    public EmployeeListAdapter(List<Employee> employeesList) {
+    public EmployeeListAdapter(List<Employee> employeesList, ClickListener clickListener) {
         this.employeesList = employeesList;
+        employeeListFull = new ArrayList<>(employeesList);
+        this.mClickListener=clickListener;
     }
 
     @NonNull
@@ -58,4 +64,45 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
             salary=itemView.findViewById(R.id.tv_salary);
         }
     }
-}
+
+    public Filter getFilter(){
+        return homeFilter;
+    }
+
+    private Filter homeFilter= new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Employee> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(employeeListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Employee item : employeeListFull) {
+                    String fullName=item.getFirstName().toLowerCase()+" "+item.getLastName().toLowerCase();
+                    if (fullName.contains(filterPattern) || item.getGender().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            employeesList.clear();
+            employeesList.addAll((List) results.values);
+            notifyDataSetChanged();
+            mClickListener.searchResults(employeesList.size(),constraint.toString());
+        }
+    };
+
+    public interface ClickListener{
+        void searchResults(int size,String query);
+    }
+    }

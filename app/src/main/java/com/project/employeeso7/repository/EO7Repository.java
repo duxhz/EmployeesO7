@@ -3,11 +3,13 @@ package com.project.employeeso7.repository;
 import androidx.annotation.NonNull;
 
 import com.project.employeeso7.model.Employee;
+import com.project.employeeso7.model.Ratio;
 
 import java.util.List;
 import java.util.concurrent.Executor;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class EO7Repository {
 
@@ -41,6 +43,18 @@ public class EO7Repository {
 
     public Observable<List<Employee>> getEmployeesRepository(){
         return localGuestDataSource.getEmployeesDataSource();
+    }
+
+    public Single<Integer> getAverageAge(){
+        return localGuestDataSource.getAverageAge();
+    }
+
+    public Single<String> getMedianAge(){
+        return localGuestDataSource.getMedianAge();
+    }
+
+    public Single<Ratio> getRatio(){
+        return localGuestDataSource.getRatio();
     }
 
 }
