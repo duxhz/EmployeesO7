@@ -27,16 +27,12 @@ public class Employee {
     @ColumnInfo(name="salary")
     private double salary;
 
-    @ColumnInfo(name="age")
-    private String age;
-
-    public Employee(String firstName, String lastName, String birthday, String gender, double salary, String age) {
+    public Employee(String firstName, String lastName, String birthday, String gender, double salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.gender = gender;
         this.salary = salary;
-        this.age=age;
     }
 
     public long getId() {
@@ -87,11 +83,4 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
 }

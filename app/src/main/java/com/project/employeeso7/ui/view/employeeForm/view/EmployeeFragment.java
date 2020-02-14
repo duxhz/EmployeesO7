@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -41,34 +40,9 @@ public class EmployeeFragment extends Fragment {
 
         insertEmployee();
         openCalendar();
-        getMedAge();
-        fillMedAge();
 
         return rootView;
     }
-
-    private void fillAvgAge(){
-        mViewModel.getAverageAge();
-    }
-
-    private void getAvgAge(){
-        mViewModel.updateAverageAge().observe(getViewLifecycleOwner(), integer -> {
-            Toast.makeText(getContext(), String.valueOf(integer), Toast.LENGTH_SHORT).show();
-        });
-
-    }
-
-    private void fillMedAge(){
-        mViewModel.getMedianAge();
-    }
-
-    private void getMedAge(){
-        mViewModel.updateMedianAge().observe(getViewLifecycleOwner(), string -> {
-            Toast.makeText(getContext(), string, Toast.LENGTH_SHORT).show();
-        });
-
-    }
-
 
     private void insertEmployee(){
         binding.btnAdd.setOnClickListener(v -> {
@@ -80,8 +54,7 @@ public class EmployeeFragment extends Fragment {
                     binding.etLastname.getText().toString(),
                     binding.etBirthday.getText().toString(),
                     binding.spinnerGender.getSelectedItem().toString(),
-                    Double.parseDouble(binding.etSalary.getText().toString()),
-                    age1);
+                    Double.parseDouble(binding.etSalary.getText().toString()));
             mViewModel.insertEmployee(employee);
             clearInput();
             }
@@ -140,23 +113,6 @@ public class EmployeeFragment extends Fragment {
         }
     }
 
-    private String getAge(int year, int month, int day){
-        Calendar dob = Calendar.getInstance();
-        Calendar today = Calendar.getInstance();
-
-        dob.set(year, month, day);
-
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
-            age--;
-        }
-
-        Integer ageInt = new Integer(age);
-        String ageS = ageInt.toString();
-
-        return ageS;
-    }
 
     private void openCalendar(){
         binding.ivCalendar.setOnClickListener(v -> {
@@ -181,9 +137,7 @@ public class EmployeeFragment extends Fragment {
                             if (dayString.length() == 1) {
                                 dayString = "0" + dayString;
                             }
-
-                            binding.etBirthday.setText(dayString + "-" + (monthString) + "-" + year);
-                            age1=getAge(year,Integer.parseInt(monthString),Integer.parseInt(dayString));
+                            binding.etBirthday.setText(year + "-" + (monthString) + "-" + dayString);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();

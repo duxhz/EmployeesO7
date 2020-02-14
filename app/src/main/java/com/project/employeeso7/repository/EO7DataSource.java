@@ -40,16 +40,22 @@ public class EO7DataSource {
         return mAppDatabase.getEmployeeDAO().getEmployees();
     }
 
-    public Single<Integer> getAverageAge(){
+    public Single<Float> getAverageAge(){
         return mAppDatabase.getEmployeeDAO().getAverageAge();
     }
 
-    public Single<String> getMedianAge(){
+    public Single<Float> getMedianAge(){
         return mAppDatabase.getEmployeeDAO().getMedianAge();
     }
+
+    public Single<Double> getMaxSalary(){
+        return mAppDatabase.getEmployeeDAO().getMaxSalary();
+    }
+
 
     public Single<Ratio> getRatio(){
         return mAppDatabase.getEmployeeDAO().getRatio();
     }
+
 
 }

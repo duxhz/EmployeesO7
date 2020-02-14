@@ -10,7 +10,7 @@ public class Ratio {
     }
 
     public float getMale_ratio() {
-        return male_ratio*100.0f;
+        return male_ratio;
     }
 
     public void setMale_ratio(float male_ratio) {
@@ -18,7 +18,7 @@ public class Ratio {
     }
 
     public float getFemale_ratio() {
-        return female_ratio*100.f;
+        return female_ratio;
     }
 
     public void setFemale_ratio(float female_ratio) {

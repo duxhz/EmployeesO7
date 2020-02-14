@@ -24,16 +24,16 @@ public interface EmployeesDAO {
     @Query("SELECT * FROM employees WHERE id = :id")
     Employee getEmployeeById(Long id);
 
-    @Query("SELECT AVG(age) as average FROM employees")
-    Single<Integer> getAverageAge();
+    @Query("SELECT AVG(date('now')-date(birthday)) FROM employees")
+    Single<Float> getAverageAge();
 
-    @Query("SELECT AVG(age) FROM(SELECT age FROM employees ORDER BY age LIMIT 2 - (SELECT COUNT(*) FROM employees) % 2 OFFSET (SELECT (COUNT(*) - 1) / 2 FROM employees))")
-    Single<String> getMedianAge();
+    @Query("SELECT AVG(date('now')-date(birthday)) FROM(SELECT birthday FROM employees ORDER BY birthday LIMIT 2 - (SELECT COUNT(*) FROM employees) % 2 OFFSET (SELECT (COUNT(*) - 1) / 2 FROM employees))")
+    Single<Float> getMedianAge();
 
-  /*  @Query("SELECT MAX(salary) FROM employees")
-    Single<String> */
+    @Query("SELECT MAX(salary) FROM employees")
+    Single<Double> getMaxSalary();
 
-    @Query("SELECT sum(case when gender='Male' then 1 else 0 end)/count(*) as male_ratio, sum(case when gender='Female' then 1 else 0 end)/count(*) as female_ratio from employees")
+    @Query("SELECT 100*sum(case when gender='Male' then 1 else 0 end)/count(*) as male_ratio, 100*sum(case when gender='Female' then 1 else 0 end)/count(*) as female_ratio from employees")
     Single<Ratio> getRatio();
 
 }

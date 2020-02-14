@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -26,7 +25,7 @@ public class StatisticsFragment extends Fragment {
     FragmentStatisticsBinding binding;
     MainActivityViewModel mViewModel;
     View rootView;
-    ArrayList<PieEntry> value= new ArrayList<>(2);
+    ArrayList<PieEntry> value= new ArrayList<>();
     float m,f;
 
     @Override
@@ -42,32 +41,50 @@ public class StatisticsFragment extends Fragment {
 
         observeRatio();
         getRatio();
-        ratioPieChart();
+        observeMedAge();
+        getMedAge();
+        observeAvgAge();
+        getAvgAge();
+        observeMaxSalary();
+        getMaxSalary();
 
         return rootView;
     }
 
+    private void getAvgAge(){
+        mViewModel.getAverageAge();
+    }
+
+    private void observeAvgAge(){
+        mViewModel.updateAverageAge().observe(getViewLifecycleOwner(), aFloat -> {
+            binding.tvAvgAge.setText(String.valueOf(aFloat));
+        });
+    }
+
+    private void getMaxSalary(){
+        mViewModel.getMaxSalary();
+    }
+
+    private void observeMaxSalary(){
+        mViewModel.updateMaxSalary().observe(getViewLifecycleOwner(), aDouble -> {
+            binding.tvMaxSalary.setText(String.valueOf(aDouble)+getText(R.string.euro_sign));
+        });
+    }
+
+    private void getMedAge(){
+        mViewModel.getMedAge();
+    }
+
+    private void observeMedAge(){
+        mViewModel.updateMedAge().observe(getViewLifecycleOwner(),aFloat -> {
+            binding.tvMedAge.setText(String.valueOf(aFloat));
+        });
+    }
+
     private void observeRatio(){
         mViewModel.updateRatio().observe(getViewLifecycleOwner(), ratio -> {
-            m=ratio.getMale_ratio();
-            f=ratio.getFemale_ratio();
-            /*binding.pcRatio.setUsePercentValues(true);
-            if(value.size()<=2){
-                value.add(0, new PieEntry(m, "Male"));
-                value.add(1, new PieEntry(f, "Female"));
-            }
-            *//*if(value.size()<2) {
-
-            }*//*
-            PieDataSet dataSet= new PieDataSet(value, "");
-            dataSet.setColors(getContext().getResources().getColor(R.color.colorPrimary),getContext().getResources().getColor(R.color.blue_app));
-            PieData data= new PieData(dataSet);
-            data.setValueFormatter(new PercentFormatter());
-            binding.pcRatio.setData(data);
-            Description desc= new Description();
-            desc.setText("Gender Ratio");
-            binding.pcRatio.setDescription(desc);
-            Toast.makeText(getContext(), String.valueOf(value.size()), Toast.LENGTH_SHORT).show();*/
+           m=ratio.getMale_ratio();
+           f=ratio.getFemale_ratio();
         });
     }
 
@@ -76,28 +93,27 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void ratioPieChart(){
-            binding.pcRatio.setUsePercentValues(true);
-        /*if(value.size()<=2){
-            value.add(0, new PieEntry(m, "Male"));
-            value.add(1, new PieEntry(f, "Female"));
-        }*/
-            value.add(0, new PieEntry(80.0f, "Male"));
-            value.add(1, new PieEntry(20.0f, "Female"));
-            PieDataSet dataSet= new PieDataSet(value, "");
-            dataSet.setColors(getContext().getResources().getColor(R.color.colorPrimary),getContext().getResources().getColor(R.color.blue_app));
-            PieData data= new PieData(dataSet);
-            data.setValueFormatter(new PercentFormatter());
-            binding.pcRatio.setData(data);
-            Description desc= new Description();
-            desc.setText("Gender Ratio");
-            binding.pcRatio.setDescription(desc);
-            Toast.makeText(getContext(), String.valueOf(value.size()), Toast.LENGTH_SHORT).show();
-
+        binding.pcRatio.setUsePercentValues(true);
+        if(value.size()<2){
+            value.add( new PieEntry(m, "Male"));
+            value.add( new PieEntry(f, "Female"));
+        }else {
+            value.set(0, new PieEntry(m, "Male"));
+            value.set(1, new PieEntry(f, "Female"));
+        }
+        PieDataSet dataSet= new PieDataSet(value, "");
+        dataSet.setColors(getContext().getResources().getColor(R.color.colorPrimary),getContext().getResources().getColor(R.color.blue_app));
+        PieData data= new PieData(dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        binding.pcRatio.setData(data);
+        Description desc= new Description();
+        desc.setText("Gender Ratio");
+        binding.pcRatio.setDescription(desc);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getRatio();
+        ratioPieChart();
     }
 }

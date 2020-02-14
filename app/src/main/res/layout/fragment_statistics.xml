@@ -26,13 +26,109 @@
                     android:layout_width="0dp"
                     android:layout_height="250dp"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/view_stats"
+                    app:layout_constraintEnd_toEndOf="@id/pc_ratio"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@id/pc_ratio"
+                    app:layout_constraintTop_toBottomOf="@id/pc_ratio" />
+
+                <TextView
+                    android:id="@+id/tv_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Average age"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/view"
+                    app:layout_constraintStart_toStartOf="@+id/view"
+                    app:layout_constraintTop_toTopOf="@+id/view" />
+
+                <TextView
+                    android:id="@+id/tv_avgAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/tv_avg"
+                    app:layout_constraintEnd_toEndOf="@id/tv_avg"
+                    app:layout_constraintTop_toBottomOf="@id/tv_avg"
+                    />
+
+
+                <TextView
+                    android:id="@+id/tv_med"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Median age: "
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_avgAge"
+                    app:layout_constraintStart_toStartOf="@+id/tv_avgAge"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_avgAge" />
+
+                <TextView
+                    android:id="@+id/tv_medAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/tv_med"
+                    app:layout_constraintEnd_toEndOf="@id/tv_med"
+                    app:layout_constraintTop_toBottomOf="@id/tv_med"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Maximum salary: "
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_medAge"
+                    app:layout_constraintStart_toStartOf="@+id/tv_medAge"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_medAge" />
+
+                <TextView
+                    android:id="@+id/tv_maxSalary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/tv_max"
+                    app:layout_constraintEnd_toEndOf="@id/tv_max"
+                    app:layout_constraintTop_toBottomOf="@id/tv_max"
+                    />
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

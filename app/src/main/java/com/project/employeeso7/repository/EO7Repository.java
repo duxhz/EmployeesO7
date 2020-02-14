@@ -45,12 +45,16 @@ public class EO7Repository {
         return localGuestDataSource.getEmployeesDataSource();
     }
 
-    public Single<Integer> getAverageAge(){
+    public Single<Float> getAverageAge(){
         return localGuestDataSource.getAverageAge();
     }
 
-    public Single<String> getMedianAge(){
+    public Single<Float> getMedianAge(){
         return localGuestDataSource.getMedianAge();
+    }
+
+    public Single<Double> getMaxSalary(){
+        return localGuestDataSource.getMaxSalary();
     }
 
     public Single<Ratio> getRatio(){

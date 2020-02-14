@@ -29,9 +29,10 @@ public class MainActivityViewModel extends AndroidViewModel {
     private Context mAppContext;
     MutableLiveData<Boolean> addedSuccess = new MutableLiveData<>();
     MutableLiveData<List<Employee>> employeeList = new MutableLiveData<>();
-    MutableLiveData<Integer> avgAge = new MutableLiveData<>();
-    MutableLiveData<String> medAge = new MutableLiveData<>();
+    MutableLiveData<Float> avgAge = new MutableLiveData<Float>();
+    MutableLiveData<Float> medAge = new MutableLiveData<>();
     MutableLiveData<Ratio> ratioItem = new MutableLiveData<>();
+    MutableLiveData<Double> salaryItem = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable;
 
     public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository) {
@@ -40,6 +41,49 @@ public class MainActivityViewModel extends AndroidViewModel {
         mGuestRepository=guestRepository;
         this.compositeDisposable= new CompositeDisposable();
     }
+
+    //GET MAX SALARY
+    public LiveData<Double> updateMaxSalary(){
+        return salaryItem;
+    }
+    public void getMaxSalary(){
+        mGuestRepository.getMaxSalary()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Double>() {
+                    @Override
+                    public void onSuccess(Double aDouble) {
+                        salaryItem.postValue(aDouble);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
+    //GET MEDIAN AGE
+    public LiveData<Float> updateMedAge(){
+        return medAge;
+    }
+    public void getMedAge(){
+        mGuestRepository.getMedianAge()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Float>() {
+                    @Override
+                    public void onSuccess(Float aFloat) {
+                        medAge.postValue(aFloat);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
 
     //GET RATIO
     public LiveData<Ratio> updateRatio(){
@@ -62,38 +106,17 @@ public class MainActivityViewModel extends AndroidViewModel {
                 });
     }
 
-    //GET MEDIAN AGE
-    public LiveData<String> updateMedianAge(){
-        return medAge;
-    }
-    public void getMedianAge(){
-        mGuestRepository.getMedianAge()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-                    @Override
-                    public void onSuccess(String string) {
-                        medAge.postValue(string);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-    }
-
     //GET AVERAGE AGE
-    public LiveData<Integer> updateAverageAge(){
+    public LiveData<Float> updateAverageAge(){
         return avgAge;
     }
     public void getAverageAge(){
         mGuestRepository.getAverageAge()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Integer>() {
+                .subscribeWith(new DisposableSingleObserver<Float>() {
                     @Override
-                    public void onSuccess(Integer integer) {
+                    public void onSuccess(Float integer) {
                         avgAge.postValue(integer);
                     }
 

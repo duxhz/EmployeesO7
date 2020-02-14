@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#db1200</color>
-    <color name="colorPrimaryDark">#9B9B9B</color>
+    <color name="colorPrimaryDark">#00949c</color>
     <color name="colorAccent">#D38135</color>
 
     <color name="white_app">#ffffff</color>
