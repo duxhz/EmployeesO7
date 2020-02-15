@@ -32,12 +32,13 @@ repositories {
 }
 
 ext {
-    room_version = '2.2.3'
+    room_version = "2.2.3"
     nav_version = "2.3.0-alpha01"
     stetho_ver = "1.5.1"
     mat_version = "1.2.0-alpha04"
     ld_version= "2.2.0"
     rf_version= "2.5.0"
+    koin_version = "2.0.1"
 }
 
 dependencies {
@@ -87,6 +88,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     //CardView
     implementation "androidx.cardview:cardview:1.0.0"
+
+    //Koin
+    implementation "org.koin:koin-java:$koin_version"
 
     //Charts library
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

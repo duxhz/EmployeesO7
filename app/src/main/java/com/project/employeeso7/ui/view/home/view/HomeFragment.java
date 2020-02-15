@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
@@ -52,15 +53,31 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
             mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         }
 
+        setupRecyclerView();
+
+        /*observeEmployees();
+        updateEmployees();*/
+        //updateEmployees();
+        initSearch();
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        updateEmployees();
+    }
+
+    private void setupRecyclerView(){
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         RecyclerView.LayoutManager layoutManager2=new LinearLayoutManager(getContext());
         binding.rvList.setLayoutManager(layoutManager);
 
-        observeEmployees();
-        updateEmployees();
-        initSearch();
-
-        return rootView;
+        adapter= new EmployeeListAdapter(employeeList,this);
+        binding.rvList.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
     }
 
     public void observeSearchResults(){
@@ -101,20 +118,29 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
     private void observeEmployees() {
         mViewModel.updateEmployees().observe(getViewLifecycleOwner(), employees -> {
             employeeList=employees;
-            adapter=new EmployeeListAdapter(employeeList,this);
+            adapter= new EmployeeListAdapter(employeeList,this);
             binding.rvList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         });
     }
 
     private void updateEmployees(){
-        mViewModel.getEmployees();
+        //mViewModel.getEmployees();
+        mViewModel.getEmployeesLD().observe(getViewLifecycleOwner(), employees -> {
+            employeeList=employees;
+
+            adapter.updateEmployeeListItems(employees);
+
+           /* adapter= new EmployeeListAdapter(employeeList,this);
+            binding.rvList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();*/
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateEmployees();
+        //updateEmployees();
     }
 
     @Override

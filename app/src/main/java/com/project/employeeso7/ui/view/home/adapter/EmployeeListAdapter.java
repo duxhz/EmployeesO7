@@ -7,6 +7,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.employeeso7.R;
@@ -53,6 +54,18 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
     @Override
     public int getItemCount() {
         return employeesList.size();
+    }
+
+    public void updateEmployeeListItems(List<Employee> employees) {
+        final EmployeesDiffCallback diffCallback = new EmployeesDiffCallback(this.employeesList, employees);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        this.employeesList.clear();
+        this.employeesList.addAll(employees);
+        employeeListFull.clear();
+        employeeListFull.addAll(employees);
+
+        diffResult.dispatchUpdatesTo(this);
     }
 
     public class EmployeeViewHolder extends RecyclerView.ViewHolder {

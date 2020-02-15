@@ -1,7 +1,6 @@
 package com.project.employeeso7.ui.viewModel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,8 +14,7 @@ import com.project.employeeso7.model.Employee;
 import com.project.employeeso7.model.Ratio;
 import com.project.employeeso7.model.googleCustomSearch.GoogleCustomSearchResponse;
 import com.project.employeeso7.model.googleCustomSearch.ItemsItem;
-import com.project.employeeso7.repository.local.EO7Repository;
-import com.project.employeeso7.repository.remote.ApiRepository;
+import com.project.employeeso7.repository.EO7Repository;
 
 import java.util.List;
 
@@ -26,12 +24,10 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+
 public class MainActivityViewModel extends AndroidViewModel {
 
     private EO7Repository mGuestRepository;
-    private Context mAppContext;
-    private ApiRepository mApiRepository;
-    MutableLiveData<Boolean> addedSuccess = new MutableLiveData<>();
     MutableLiveData<List<Employee>> employeeList = new MutableLiveData<>();
     MutableLiveData<Float> avgAge = new MutableLiveData<Float>();
     MutableLiveData<Float> medAge = new MutableLiveData<>();
@@ -40,11 +36,9 @@ public class MainActivityViewModel extends AndroidViewModel {
     MutableLiveData<List<ItemsItem>> googleItem = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable;
 
-    public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository,ApiRepository apiRepository) {
+    public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository) {
         super(application);
-        mAppContext=application.getApplicationContext();
         mGuestRepository=guestRepository;
-        mApiRepository=apiRepository;
         this.compositeDisposable= new CompositeDisposable();
     }
 
@@ -53,7 +47,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         return googleItem;
     }
     public void getSearchResults(String apiKey, String searchEngine, String query){
-        mApiRepository.getGoogleResultsRepository(apiKey,searchEngine,query)
+        mGuestRepository.getGoogleResultsRepository(apiKey,searchEngine,query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<GoogleCustomSearchResponse>() {
@@ -164,7 +158,14 @@ public class MainActivityViewModel extends AndroidViewModel {
     public LiveData<List<Employee>> updateEmployees(){
         return employeeList;
     }
-    public void getEmployees(){
+
+    public LiveData<List<Employee>> getEmployeesLD(){
+        return mGuestRepository.getEmployeesRepositoryLD();
+    }
+
+
+
+   /* public void getEmployees(){
         mGuestRepository.getEmployeesRepository()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -185,11 +186,25 @@ public class MainActivityViewModel extends AndroidViewModel {
                     }
                 });
 
-    }
+    }*/
 
     //INSERT EMPLOYEE
     public void insertEmployee(Employee employee){
-        mGuestRepository.insertEmployeeRepository(employee);
+        compositeDisposable.add(
+        mGuestRepository.insertEmployeeRepository(employee)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Long>() {
+                    @Override
+                    public void onSuccess(Long aLong) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                }));
     }
 
 
@@ -205,20 +220,17 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         private final EO7Repository mRepository;
 
-        private final ApiRepository mApiRepository;
-
         public Factory(@NonNull Application application) {
             mApplication = application;
 
             mRepository = ((EO7Application) application).getRepository();
 
-            mApiRepository=((EO7Application) application).getApiRepository();
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new MainActivityViewModel(mApplication, mRepository,mApiRepository);
+            return (T) new MainActivityViewModel(mApplication, mRepository);
         }
     }
 }

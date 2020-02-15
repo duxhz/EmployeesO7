@@ -1,5 +1,6 @@
 package com.project.employeeso7.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -9,20 +10,19 @@ import com.project.employeeso7.model.Ratio;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
 @Dao
 public interface EmployeesDAO {
 
     @Insert
-    void insert(Employee... employees);
+    Single<Long> insert(Employee employees);
 
     @Query("SELECT * FROM employees")
-    Observable<List<Employee>> getEmployees();
+    LiveData<List<Employee>> getEmployees();
 
-    @Query("SELECT * FROM employees WHERE id = :id")
-    Employee getEmployeeById(Long id);
+    @Query("SELECT * FROM employees")
+    LiveData<List<Employee>> getEmployeesLD();
 
     @Query("SELECT AVG(date('now')-date(birthday)) FROM employees")
     Single<Float> getAverageAge();

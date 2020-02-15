@@ -1,8 +1,8 @@
 package com.project.employeeso7.model;
 
 public class Ratio {
-    float male_ratio;
-    float female_ratio;
+    private float male_ratio;
+    private float female_ratio;
 
     public Ratio(float male_ratio, float female_ratio) {
         this.male_ratio = male_ratio;
