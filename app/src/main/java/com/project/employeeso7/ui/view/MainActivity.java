@@ -1,4 +1,4 @@
-package com.project.employeeso7.ui;
+package com.project.employeeso7.ui.view;
 
 import android.os.Bundle;
 

@@ -37,6 +37,7 @@ ext {
     stetho_ver = "1.5.1"
     mat_version = "1.2.0-alpha04"
     ld_version= "2.2.0"
+    rf_version= "2.5.0"
 }
 
 dependencies {
@@ -71,6 +72,11 @@ dependencies {
     //RxJava2
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.16'
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rf_version"
+    implementation "com.squareup.retrofit2:converter-gson:$rf_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rf_version"
 
     //LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$ld_version"

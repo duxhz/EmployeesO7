@@ -43,6 +43,11 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
         holder.birthday.setText(currentItem.getBirthday());
         holder.gender.setText(currentItem.getGender());
         holder.salary.setText(String.valueOf(currentItem.getSalary()));
+
+
+        holder.itemView.setOnClickListener(v -> {
+            mClickListener.googleSearch(currentItem.getFirstName());
+        });
     }
 
     @Override
@@ -104,5 +109,6 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
 
     public interface ClickListener{
         void searchResults(int size,String query);
+        void googleSearch(String firstName);
     }
     }

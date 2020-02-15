@@ -13,7 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.project.employeeso7.EO7Application;
 import com.project.employeeso7.model.Employee;
 import com.project.employeeso7.model.Ratio;
-import com.project.employeeso7.repository.EO7Repository;
+import com.project.employeeso7.model.googleCustomSearch.GoogleCustomSearchResponse;
+import com.project.employeeso7.model.googleCustomSearch.ItemsItem;
+import com.project.employeeso7.repository.local.EO7Repository;
+import com.project.employeeso7.repository.remote.ApiRepository;
 
 import java.util.List;
 
@@ -27,19 +30,49 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private EO7Repository mGuestRepository;
     private Context mAppContext;
+    private ApiRepository mApiRepository;
     MutableLiveData<Boolean> addedSuccess = new MutableLiveData<>();
     MutableLiveData<List<Employee>> employeeList = new MutableLiveData<>();
     MutableLiveData<Float> avgAge = new MutableLiveData<Float>();
     MutableLiveData<Float> medAge = new MutableLiveData<>();
     MutableLiveData<Ratio> ratioItem = new MutableLiveData<>();
     MutableLiveData<Double> salaryItem = new MutableLiveData<>();
+    MutableLiveData<List<ItemsItem>> googleItem = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable;
 
-    public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository) {
+    public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository,ApiRepository apiRepository) {
         super(application);
         mAppContext=application.getApplicationContext();
         mGuestRepository=guestRepository;
+        mApiRepository=apiRepository;
         this.compositeDisposable= new CompositeDisposable();
+    }
+
+    //GOOGLE CUSTOM SEARCH JSON API
+    public LiveData<List<ItemsItem>> updateSearchResults(){
+        return googleItem;
+    }
+    public void getSearchResults(String apiKey, String searchEngine, String query){
+        mApiRepository.getGoogleResultsRepository(apiKey,searchEngine,query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<GoogleCustomSearchResponse>() {
+                    @Override
+                    public void onNext(GoogleCustomSearchResponse googleCustomSearchResponse) {
+                       List<ItemsItem> searchData=googleCustomSearchResponse.getItems();
+                       googleItem.postValue(searchData);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     //GET MAX SALARY
@@ -172,16 +205,20 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         private final EO7Repository mRepository;
 
+        private final ApiRepository mApiRepository;
+
         public Factory(@NonNull Application application) {
             mApplication = application;
 
             mRepository = ((EO7Application) application).getRepository();
+
+            mApiRepository=((EO7Application) application).getApiRepository();
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new MainActivityViewModel(mApplication, mRepository);
+            return (T) new MainActivityViewModel(mApplication, mRepository,mApiRepository);
         }
     }
 }

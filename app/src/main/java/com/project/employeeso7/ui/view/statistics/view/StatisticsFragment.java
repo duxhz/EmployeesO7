@@ -85,6 +85,7 @@ public class StatisticsFragment extends Fragment {
         mViewModel.updateRatio().observe(getViewLifecycleOwner(), ratio -> {
            m=ratio.getMale_ratio();
            f=ratio.getFemale_ratio();
+           ratioPieChart();
         });
     }
 

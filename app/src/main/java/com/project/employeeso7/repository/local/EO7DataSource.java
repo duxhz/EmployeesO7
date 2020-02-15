@@ -1,4 +1,4 @@
-package com.project.employeeso7.repository;
+package com.project.employeeso7.repository.local;
 
 import com.project.employeeso7.db.AppDatabase;
 import com.project.employeeso7.model.Employee;

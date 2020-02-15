@@ -12,6 +12,8 @@
     <string name="add_employee">Add employee</string>
     <string name="empty_field">Field must not be empty</string>
     <string name="euro_sign">€</string>
+    <string name="api_key">AIzaSyBOUiEDk4pR3KccKyDsQ7Ql2YvIcmuPb0I</string>
+    <string name="search_engine_key">016165087535043040058:yibjhcio00u</string>
 
     <string-array name="gender">
         <item>Male</item>
