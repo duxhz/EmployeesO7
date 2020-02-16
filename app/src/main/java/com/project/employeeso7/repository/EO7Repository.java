@@ -38,32 +38,27 @@ public class EO7Repository {
     }
 
     public Single<Long> insertEmployeeRepository(final Employee employee) {
-       return mLocalGuestDataSource.insertEmployeeDataSource(employee);
-    }
-
-    public LiveData<List<Employee>> getEmployeesRepository(){
-        return mLocalGuestDataSource.getEmployeesDataSource();
+        return mLocalGuestDataSource.insertEmployeeDataSource(employee);
     }
 
     public LiveData<List<Employee>> getEmployeesRepositoryLD(){
         return mLocalGuestDataSource.getEmployeesDataSourceLD();
     }
 
-
-    public Single<Float> getAverageAge(){
-        return mLocalGuestDataSource.getAverageAge();
+    public LiveData<Float> getAverageAgeLD(){
+        return mLocalGuestDataSource.getAverageAgeLD();
     }
 
-    public Single<Float> getMedianAge(){
-        return mLocalGuestDataSource.getMedianAge();
+    public LiveData<Float> getMedianAgeLD(){
+        return mLocalGuestDataSource.getMedianAgeLD();
     }
 
-    public Single<Double> getMaxSalary(){
-        return mLocalGuestDataSource.getMaxSalary();
+    public LiveData<Double> getMaxSalaryLD(){
+        return mLocalGuestDataSource.getMaxSalaryLD();
     }
 
-    public Single<Ratio> getRatio(){
-        return mLocalGuestDataSource.getRatio();
+    public LiveData<Ratio> getRatioLD(){
+        return mLocalGuestDataSource.getRatioLD();
     }
 
     public Observable<GoogleCustomSearchResponse> getGoogleResultsRepository(String apiKey, String searchEngine, String query){

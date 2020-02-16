@@ -1,6 +1,5 @@
 package com.project.employeeso7.ui.view.home.adapter;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.project.employeeso7.model.Employee;
@@ -33,18 +32,15 @@ public class EmployeesDiffCallback extends DiffUtil.Callback {
                 newItemPosition).getId();
     }
 
-      @Override
+    @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        final Employee oldEmployee = mOldEmployeeList.get(oldItemPosition);
-        final Employee newEmployee = mNewEmployeeList.get(newItemPosition);
-
-        return oldEmployee.equals(newEmployee);
+        return mOldEmployeeList.get(oldItemPosition).equals(mNewEmployeeList.get(newItemPosition));
     }
 
-    @Nullable
+    /*@Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
         // Implement method if you're going to use ItemAnimator
         return super.getChangePayload(oldItemPosition, newItemPosition);
-    }
+    }*/
 }

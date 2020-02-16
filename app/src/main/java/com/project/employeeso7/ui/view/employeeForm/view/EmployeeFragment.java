@@ -50,13 +50,13 @@ public class EmployeeFragment extends Fragment {
                 return;
             }
             else{
-            Employee employee= new Employee(binding.etFirstName.getText().toString(),
-                    binding.etLastname.getText().toString(),
-                    binding.etBirthday.getText().toString(),
-                    binding.spinnerGender.getSelectedItem().toString(),
-                    Double.parseDouble(binding.etSalary.getText().toString()));
-            mViewModel.insertEmployee(employee);
-            clearInput();
+                Employee employee= new Employee(binding.etFirstName.getText().toString(),
+                        binding.etLastname.getText().toString(),
+                        binding.etBirthday.getText().toString(),
+                        binding.spinnerGender.getSelectedItem().toString(),
+                        Double.parseDouble(binding.etSalary.getText().toString()));
+                mViewModel.insertEmployee(employee);
+                clearInput();
             }
         });
     }
@@ -144,5 +144,5 @@ public class EmployeeFragment extends Fragment {
         });
 
 
-}
+    }
 }

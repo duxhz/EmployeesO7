@@ -28,36 +28,33 @@ import com.project.employeeso7.ui.view.home.adapter.EmployeeListAdapter;
 import com.project.employeeso7.ui.view.home.adapter.PublicProfileAdapter;
 import com.project.employeeso7.ui.viewModel.MainActivityViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickListener {
 
-    FragmentHomeBinding binding;
-    MainActivityViewModel mViewModel;
-    View rootView;
-    List<Employee> employeeList=new ArrayList<>();
-    List<ItemsItem> searchList= new ArrayList<>();
-    EmployeeListAdapter adapter;
-    PublicProfileAdapter adapter2;
-    RecyclerView recyclerView2;
+    private FragmentHomeBinding binding;
+    private MainActivityViewModel mViewModel;
+    private View rootView;
+    private List<Employee> employeeList = new ArrayList<>();
+    private List<ItemsItem> searchList = new ArrayList<>();
+    private EmployeeListAdapter adapter;
+    private PublicProfileAdapter adapter2;
+    private RecyclerView recyclerView2;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false);
-        rootView= binding.getRoot();
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        rootView = binding.getRoot();
 
-        if(getActivity() != null){
+        if (getActivity() != null) {
             mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         }
 
         setupRecyclerView();
-
-        /*observeEmployees();
-        updateEmployees();*/
-        //updateEmployees();
         initSearch();
 
         return rootView;
@@ -67,34 +64,32 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        updateEmployees();
+        getEmployees();
     }
 
-    private void setupRecyclerView(){
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
-        RecyclerView.LayoutManager layoutManager2=new LinearLayoutManager(getContext());
+    private void setupRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvList.setLayoutManager(layoutManager);
 
-        adapter= new EmployeeListAdapter(employeeList,this);
+        adapter = new EmployeeListAdapter(employeeList, this);
         binding.rvList.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
     }
 
-    public void observeSearchResults(){
-        mViewModel.updateSearchResults().observe(getViewLifecycleOwner(),itemsItems -> {
+    private void observeSearchResults() {
+        mViewModel.updateSearchResults().observe(getViewLifecycleOwner(), itemsItems -> {
             Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-            searchList=itemsItems;
-            adapter2=new PublicProfileAdapter(searchList);
+            searchList = itemsItems;
+            adapter2 = new PublicProfileAdapter(searchList);
             recyclerView2.setAdapter(adapter2);
             adapter2.notifyDataSetChanged();
         });
     }
 
-    public void getSearchResults(String query){
-        mViewModel.getSearchResults(getString(R.string.api_key),getString(R.string.search_engine_key),query);
+    private void getSearchResults(String query) {
+        mViewModel.getSearchResults(getString(R.string.api_key), getString(R.string.search_engine_key), query);
     }
 
-    private void initSearch(){
+    private void initSearch() {
         binding.searchViewHome.setImeOptions(EditorInfo.IME_ACTION_DONE);
         queryListener();
     }
@@ -115,75 +110,49 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
         return true;
     }
 
-    private void observeEmployees() {
-        mViewModel.updateEmployees().observe(getViewLifecycleOwner(), employees -> {
-            employeeList=employees;
-            adapter= new EmployeeListAdapter(employeeList,this);
-            binding.rvList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        });
-    }
-
-    private void updateEmployees(){
-        //mViewModel.getEmployees();
+    private void getEmployees() {
         mViewModel.getEmployeesLD().observe(getViewLifecycleOwner(), employees -> {
-            employeeList=employees;
-
+            employeeList = employees;
             adapter.updateEmployeeListItems(employees);
-
-           /* adapter= new EmployeeListAdapter(employeeList,this);
-            binding.rvList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();*/
         });
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        //updateEmployees();
-    }
-
-    @Override
-    public void searchResults(int size,String constraint) {
+    public void searchResults(int size, String constraint) {
         Snackbar snackbar = Snackbar
-                .make(getView() , "Search results: "+String.valueOf(size)+"\nfor query: "+constraint.toString(), Snackbar.LENGTH_SHORT);
+                .make(getView(), "Search results: " + size + "\nfor query: " + constraint, Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
 
-    public void searchResultsDialog(){
+    public void searchResultsDialog() {
         AlertDialog.Builder alert;
 
-            alert= new AlertDialog.Builder(getContext());
+        alert = new AlertDialog.Builder(getContext());
 
-        LayoutInflater inflater= getLayoutInflater();
+        LayoutInflater inflater = getLayoutInflater();
 
-        View view= inflater.inflate(R.layout.dialog_public_profile, null);
+        View view = inflater.inflate(R.layout.dialog_public_profile, null);
 
-        ImageView cancel= view.findViewById(R.id.iv_cancel);
-        recyclerView2= view.findViewById(R.id.recyclerView_search);
+        ImageView cancel = view.findViewById(R.id.iv_cancel);
+        recyclerView2 = view.findViewById(R.id.recyclerView_search);
 
         alert.setView(view);
         alert.setCancelable(true);
 
-        RecyclerView.LayoutManager layoutManager2=new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext());
         recyclerView2.setLayoutManager(layoutManager2);
         observeSearchResults();
 
-        AlertDialog alertDialog= alert.create();
+        AlertDialog alertDialog = alert.create();
         alertDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         alertDialog.show();
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.cancel();
-            }
-        });
+        cancel.setOnClickListener(v -> alertDialog.cancel());
     }
 
     @Override
-    public void googleSearch(String firstName) {
-        getSearchResults(firstName);
+    public void googleSearch(int position) {
+        getSearchResults(employeeList.get(position).getFirstName());
         searchResultsDialog();
     }
 

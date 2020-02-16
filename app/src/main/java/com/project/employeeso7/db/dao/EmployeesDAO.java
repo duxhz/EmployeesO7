@@ -19,21 +19,19 @@ public interface EmployeesDAO {
     Single<Long> insert(Employee employees);
 
     @Query("SELECT * FROM employees")
-    LiveData<List<Employee>> getEmployees();
-
-    @Query("SELECT * FROM employees")
     LiveData<List<Employee>> getEmployeesLD();
 
     @Query("SELECT AVG(date('now')-date(birthday)) FROM employees")
-    Single<Float> getAverageAge();
+    LiveData<Float> getAverageAgeLD();
 
     @Query("SELECT AVG(date('now')-date(birthday)) FROM(SELECT birthday FROM employees ORDER BY birthday LIMIT 2 - (SELECT COUNT(*) FROM employees) % 2 OFFSET (SELECT (COUNT(*) - 1) / 2 FROM employees))")
-    Single<Float> getMedianAge();
+    LiveData<Float> getMedianAgeLD();
 
     @Query("SELECT MAX(salary) FROM employees")
-    Single<Double> getMaxSalary();
+    LiveData<Double> getMaxSalaryLD();
 
     @Query("SELECT 100*sum(case when gender='Male' then 1 else 0 end)/count(*) as male_ratio, 100*sum(case when gender='Female' then 1 else 0 end)/count(*) as female_ratio from employees")
-    Single<Ratio> getRatio();
+    LiveData<Ratio> getRatioLD();
+
 
 }

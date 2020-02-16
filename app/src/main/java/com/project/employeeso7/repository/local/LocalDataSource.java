@@ -8,7 +8,6 @@ import com.project.employeeso7.model.Ratio;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class LocalDataSource {
@@ -38,30 +37,25 @@ public class LocalDataSource {
         return mAppDatabase.getEmployeeDAO().insert(employee);
     }
 
-    public LiveData<List<Employee>> getEmployeesDataSource() {
-        return mAppDatabase.getEmployeeDAO().getEmployees();
-    }
-
     public LiveData<List<Employee>> getEmployeesDataSourceLD() {
         return mAppDatabase.getEmployeeDAO().getEmployeesLD();
     }
 
 
-    public Single<Float> getAverageAge() {
-        return mAppDatabase.getEmployeeDAO().getAverageAge();
+    public LiveData<Float> getAverageAgeLD() {
+        return mAppDatabase.getEmployeeDAO().getAverageAgeLD();
     }
 
-    public Single<Float> getMedianAge() {
-        return mAppDatabase.getEmployeeDAO().getMedianAge();
+    public LiveData<Float> getMedianAgeLD() {
+        return mAppDatabase.getEmployeeDAO().getMedianAgeLD();
     }
 
-    public Single<Double> getMaxSalary() {
-        return mAppDatabase.getEmployeeDAO().getMaxSalary();
+    public LiveData<Double> getMaxSalaryLD() {
+        return mAppDatabase.getEmployeeDAO().getMaxSalaryLD();
     }
 
-
-    public Single<Ratio> getRatio() {
-        return mAppDatabase.getEmployeeDAO().getRatio();
+    public LiveData<Ratio> getRatioLD(){
+        return mAppDatabase.getEmployeeDAO().getRatioLD();
     }
 
 

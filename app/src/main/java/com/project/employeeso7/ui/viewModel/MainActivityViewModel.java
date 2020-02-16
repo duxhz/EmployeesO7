@@ -27,18 +27,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
-    private EO7Repository mGuestRepository;
-    MutableLiveData<List<Employee>> employeeList = new MutableLiveData<>();
-    MutableLiveData<Float> avgAge = new MutableLiveData<Float>();
-    MutableLiveData<Float> medAge = new MutableLiveData<>();
-    MutableLiveData<Ratio> ratioItem = new MutableLiveData<>();
-    MutableLiveData<Double> salaryItem = new MutableLiveData<>();
+    private EO7Repository mRepository;
     MutableLiveData<List<ItemsItem>> googleItem = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable;
 
     public MainActivityViewModel(@NonNull Application application, @NonNull EO7Repository guestRepository) {
         super(application);
-        mGuestRepository=guestRepository;
+        mRepository =guestRepository;
         this.compositeDisposable= new CompositeDisposable();
     }
 
@@ -47,14 +42,14 @@ public class MainActivityViewModel extends AndroidViewModel {
         return googleItem;
     }
     public void getSearchResults(String apiKey, String searchEngine, String query){
-        mGuestRepository.getGoogleResultsRepository(apiKey,searchEngine,query)
+        mRepository.getGoogleResultsRepository(apiKey,searchEngine,query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<GoogleCustomSearchResponse>() {
                     @Override
                     public void onNext(GoogleCustomSearchResponse googleCustomSearchResponse) {
-                       List<ItemsItem> searchData=googleCustomSearchResponse.getItems();
-                       googleItem.postValue(searchData);
+                        List<ItemsItem> searchData=googleCustomSearchResponse.getItems();
+                        googleItem.postValue(searchData);
                     }
 
                     @Override
@@ -70,141 +65,48 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     //GET MAX SALARY
-    public LiveData<Double> updateMaxSalary(){
-        return salaryItem;
+    public LiveData<Double> getMaxSalaryLD(){
+        return mRepository.getMaxSalaryLD();
     }
-    public void getMaxSalary(){
-        mGuestRepository.getMaxSalary()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Double>() {
-                    @Override
-                    public void onSuccess(Double aDouble) {
-                        salaryItem.postValue(aDouble);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-    }
 
     //GET MEDIAN AGE
-    public LiveData<Float> updateMedAge(){
-        return medAge;
+    public LiveData<Float> getMedAge(){
+        return mRepository.getMedianAgeLD();
     }
-    public void getMedAge(){
-        mGuestRepository.getMedianAge()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Float>() {
-                    @Override
-                    public void onSuccess(Float aFloat) {
-                        medAge.postValue(aFloat);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-    }
-
 
     //GET RATIO
-    public LiveData<Ratio> updateRatio(){
-        return ratioItem;
-    }
-    public void getRatio(){
-        mGuestRepository.getRatio()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Ratio>() {
-                    @Override
-                    public void onSuccess(Ratio ratio) {
-                        ratioItem.postValue(ratio);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
+    public LiveData<Ratio> updateRatioLD(){
+        return mRepository.getRatioLD();
     }
 
     //GET AVERAGE AGE
-    public LiveData<Float> updateAverageAge(){
-        return avgAge;
-    }
-    public void getAverageAge(){
-        mGuestRepository.getAverageAge()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Float>() {
-                    @Override
-                    public void onSuccess(Float integer) {
-                        avgAge.postValue(integer);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
+    public LiveData<Float> getAverageAgeLD(){
+        return mRepository.getAverageAgeLD();
     }
 
     //GET EMPLOYEES
-    public LiveData<List<Employee>> updateEmployees(){
-        return employeeList;
-    }
-
     public LiveData<List<Employee>> getEmployeesLD(){
-        return mGuestRepository.getEmployeesRepositoryLD();
+        return mRepository.getEmployeesRepositoryLD();
     }
-
-
-
-   /* public void getEmployees(){
-        mGuestRepository.getEmployeesRepository()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<List<Employee>>() {
-                    @Override
-                    public void onNext(List<Employee> employees) {
-                        employeeList.postValue(employees);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-    }*/
 
     //INSERT EMPLOYEE
     public void insertEmployee(Employee employee){
         compositeDisposable.add(
-        mGuestRepository.insertEmployeeRepository(employee)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Long>() {
-                    @Override
-                    public void onSuccess(Long aLong) {
+                mRepository.insertEmployeeRepository(employee)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<Long>() {
+                            @Override
+                            public void onSuccess(Long aLong) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
+                            @Override
+                            public void onError(Throwable e) {
 
-                    }
-                }));
+                            }
+                        }));
     }
 
 
