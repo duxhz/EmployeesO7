@@ -25,11 +25,12 @@ public class PublicProfileAdapter extends RecyclerView.Adapter<PublicProfileAdap
     public PublicProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_search, parent, false);
-        return new PublicProfileViewHolder(view);    }
+        return new PublicProfileViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull PublicProfileViewHolder holder, int position) {
-        ItemsItem currentItem=searchList.get(position);
+        ItemsItem currentItem = searchList.get(position);
 
         holder.title.setText(currentItem.getTitle());
         holder.link.setText(currentItem.getLink());
@@ -37,10 +38,9 @@ public class PublicProfileAdapter extends RecyclerView.Adapter<PublicProfileAdap
 
     @Override
     public int getItemCount() {
-        if(searchList.size()>=5) {
+        if (searchList.size() >= 5) {
             return 5;
-        }
-        else {
+        } else {
             return searchList.size();
         }
     }
@@ -48,10 +48,11 @@ public class PublicProfileAdapter extends RecyclerView.Adapter<PublicProfileAdap
     public class PublicProfileViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView link;
+
         public PublicProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-            title=itemView.findViewById(R.id.tv_title);
-            link=itemView.findViewById(R.id.tv_link);
+            title = itemView.findViewById(R.id.tv_title);
+            link = itemView.findViewById(R.id.tv_link);
         }
     }
 }

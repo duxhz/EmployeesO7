@@ -40,10 +40,10 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
     public void onBindViewHolder(@NonNull EmployeeViewHolder holder, int position) {
         Employee currentItem = employeesList.get(position);
 
-        holder.name.setText(currentItem.getFirstName() + " " + currentItem.getLastName());
-        holder.birthday.setText(currentItem.getBirthday());
-        holder.gender.setText(currentItem.getGender());
-        holder.salary.setText(String.valueOf(currentItem.getSalary()));
+            holder.name.setText(currentItem.getFirstName() + " " + currentItem.getLastName());
+            holder.birthday.setText(currentItem.getBirthday());
+            holder.gender.setText(currentItem.getGender());
+            holder.salary.setText(String.valueOf(currentItem.getSalary()));
 
     }
 
@@ -105,7 +105,8 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
 
                 for (Employee item : employeeListFull) {
                     String fullName = item.getFirstName().toLowerCase() + " " + item.getLastName().toLowerCase();
-                    if (fullName.contains(filterPattern) || item.getGender().toLowerCase().contains(filterPattern)) {
+                    String fullName2 = item.getLastName().toLowerCase() + " " +item.getFirstName().toLowerCase();
+                    if (fullName.contains(filterPattern) || fullName2.contains(filterPattern) || item.getGender().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -128,7 +129,6 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
 
     public interface ClickListener {
         void searchResults(int size, String query);
-
         void googleSearch(int position);
     }
 }

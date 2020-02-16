@@ -21,7 +21,7 @@ public class EO7Repository {
     private LocalDataSource mLocalGuestDataSource;
     private ApiDataSource mApiDataSource;
 
-    public EO7Repository(@NonNull LocalDataSource localGuestDataSource, ApiDataSource apiDataSource) {
+    private EO7Repository(@NonNull LocalDataSource localGuestDataSource, ApiDataSource apiDataSource) {
         mLocalGuestDataSource = localGuestDataSource;
         mApiDataSource = apiDataSource;
     }

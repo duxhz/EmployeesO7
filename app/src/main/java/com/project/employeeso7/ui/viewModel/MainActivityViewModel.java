@@ -16,6 +16,7 @@ import com.project.employeeso7.model.googleCustomSearch.GoogleCustomSearchRespon
 import com.project.employeeso7.model.googleCustomSearch.ItemsItem;
 import com.project.employeeso7.repository.EO7Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -42,14 +43,20 @@ public class MainActivityViewModel extends AndroidViewModel {
         return googleItem;
     }
     public void getSearchResults(String apiKey, String searchEngine, String query){
+        compositeDisposable.add(
         mRepository.getGoogleResultsRepository(apiKey,searchEngine,query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<GoogleCustomSearchResponse>() {
                     @Override
                     public void onNext(GoogleCustomSearchResponse googleCustomSearchResponse) {
+                        if(!googleCustomSearchResponse.getSearchInformation().getTotalResults().equals("0")){
                         List<ItemsItem> searchData=googleCustomSearchResponse.getItems();
-                        googleItem.postValue(searchData);
+                        googleItem.postValue(searchData);}
+                        else{
+                            List<ItemsItem> searchData2=new ArrayList<>();
+                            googleItem.postValue(searchData2);
+                        }
                     }
 
                     @Override
@@ -61,7 +68,7 @@ public class MainActivityViewModel extends AndroidViewModel {
                     public void onComplete() {
 
                     }
-                });
+                }));
     }
 
     //GET MAX SALARY

@@ -14,6 +14,8 @@
     <string name="euro_sign">€</string>
     <string name="api_key">AIzaSyBOUiEDk4pR3KccKyDsQ7Ql2YvIcmuPb0I</string>
     <string name="search_engine_key">016165087535043040058:yibjhcio00u</string>
+    <string name="no_data">No data</string>
+    <string name="no_results">No search results</string>
 
     <string-array name="gender">
         <item>Male</item>

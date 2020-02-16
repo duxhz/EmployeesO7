@@ -14,11 +14,9 @@ public class LocalDataSource {
 
     private static LocalDataSource sInstance;
 
-    private LocalDataSource localGuestDataSource;
-
     private AppDatabase mAppDatabase;
 
-    public LocalDataSource(AppDatabase appDatabase) {
+    private LocalDataSource(AppDatabase appDatabase) {
         mAppDatabase = appDatabase;
     }
 

@@ -55,19 +55,34 @@ public class StatisticsFragment extends Fragment {
 
     private void getAvgAge() {
         mViewModel.getAverageAgeLD().observe(getViewLifecycleOwner(),aFloat -> {
+            if(aFloat!=null){
             binding.tvAvgAge.setText(String.valueOf(aFloat));
+            }
+            else{
+                binding.tvAvgAge.setText(getText(R.string.no_data));
+            }
         });
     }
 
     private void getMaxSalary() {
         mViewModel.getMaxSalaryLD().observe(getViewLifecycleOwner(), aDouble -> {
-            binding.tvMaxSalary.setText(String.valueOf(aDouble) + getText(R.string.euro_sign));
+            if(aDouble!=null) {
+                binding.tvMaxSalary.setText(String.valueOf(aDouble) + getText(R.string.euro_sign));
+            }
+            else{
+                binding.tvMaxSalary.setText(getText(R.string.no_data));
+            }
         });
     }
 
     private void getMedAge() {
         mViewModel.getMedAge().observe(getViewLifecycleOwner(),aFloat -> {
-            binding.tvMedAge.setText(String.valueOf(aFloat));
+            if(aFloat!=null) {
+                binding.tvMedAge.setText(String.valueOf(aFloat));
+            }
+            else{
+                binding.tvMedAge.setText(getText(R.string.no_data));
+            }
         });
     }
 

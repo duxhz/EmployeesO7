@@ -11,7 +11,7 @@ public class ApiDataSource {
 
     private ApiService mApiService;
 
-    public ApiDataSource(ApiService apiService) {
+    private ApiDataSource(ApiService apiService) {
         this.mApiService = apiService;
     }
 

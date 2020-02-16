@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -63,7 +62,6 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         getEmployees();
     }
 
@@ -77,12 +75,11 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
 
     private void observeSearchResults() {
         mViewModel.updateSearchResults().observe(getViewLifecycleOwner(), itemsItems -> {
-            Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-            searchList = itemsItems;
-            adapter2 = new PublicProfileAdapter(searchList);
-            recyclerView2.setAdapter(adapter2);
-            adapter2.notifyDataSetChanged();
-        });
+                searchList = itemsItems;
+                adapter2 = new PublicProfileAdapter(searchList);
+                recyclerView2.setAdapter(adapter2);
+                adapter2.notifyDataSetChanged();
+             });
     }
 
     private void getSearchResults(String query) {
@@ -147,7 +144,12 @@ public class HomeFragment extends Fragment implements EmployeeListAdapter.ClickL
         alertDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         alertDialog.show();
 
-        cancel.setOnClickListener(v -> alertDialog.cancel());
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
     }
 
     @Override
