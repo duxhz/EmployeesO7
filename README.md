@@ -1,6 +1,6 @@
 # Employees List- Outfit7 expertise test
 
-This is a final version of my expertise test, an Android App that is capable of storing and receiving data with Room Persistance Library, RXJava2 using the MVVM(LiveData) and Repository Patterns.
+This is a final version of my expertise test, an Android App that is capable of storing and receiving data with Room Persistance Library, RXJava2, Retrofit using the MVVM(LiveData) and Repository Pattern.
 
 
 ## Building the App
